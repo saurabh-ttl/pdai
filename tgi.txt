@@ -1,0 +1,39 @@
+set model=meta-llama/Meta-Llama-3.1-8B-Instruct
+set volume=%cd%\data
+set token=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
+
+
+docker run --gpus all --shm-size 8g -p 8080:80 -v "%volume%:/data"  ghcr.io/huggingface/text-generation-inference:2.2.0 --model-id %model%
+
+curl -X POST http://127.0.0.1:8080/generate_stream -H "Content-Type: application/json" -d "{\"inputs\":\"What is Deep Learning?\"}"
+
+
+curl 127.0.0.1:8080/generate_stream -X POST -d '{"inputs":"What is Deep Learning?","parameters":{"max_new_tokens":20}}' -H 'Content-Type: application/json'
+
+
+meta-llama/Meta-Llama-3.1-8B-Instruct
+
+
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+
+
+###########Linux##############
+
+export model="meta-llama/Meta-Llama-3.1-8B-Instruct"
+export volume="$PWD/data"
+export token="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"
+
+
+
+docker run --gpus all --shm-size 8g -p 8080:80 -v "$volume:/data" -e HUGGING_FACE_HUB_TOKEN="$token" ghcr.io/huggingface/text-generation-inference:latest --model-id "$model"
+
+docker run --gpus all --shm-size 8g -p 8080:80 \
+  -v "$volume:/data" \
+  -e HUGGING_FACE_HUB_TOKEN="$token" \
+  ghcr.io/huggingface/text-generation-inference:latest \
+  --model-id "$model"
+
+pyyml
+text_generation
+
+
